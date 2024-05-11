@@ -15,6 +15,13 @@ router = APIRouter()
 
 @router.get("/user/{user_id}", response_model=UserSchema)
 async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
+    """
+    Retrieves a user by their ID.
+
+    :param user_id: The ID of the user to retrieve.
+    :param db: The database session.
+    :return: A User object if found, otherwise raises an HTTPException.
+    """
     async with db as session:
         note = await session.get(User, user_id)
 
@@ -26,11 +33,24 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_session)):
 
 @router.get("/user", response_model=UserSchema)
 def get_logged_user(current_user: User = Depends(get_current_user)):
+    """
+        Retrieves the currently logged-in user.
+
+        :param current_user: The current user object.
+        :return: The current user object.
+    """
     return current_user
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED, response_model=UserSchema)
 async def create_user(user: UserCreateSchema, db: AsyncSession = Depends(get_session)):
+    """
+        Registers a new user.
+
+        :param user: A UserCreateSchema object containing the new user's information.
+        :param db: The database session.
+        :return: A User object if the user is successfully registered.
+    """
     user.password = get_password_hash(user.password)
     new_user = User(**user.dict())
 
@@ -46,6 +66,13 @@ async def create_user(user: UserCreateSchema, db: AsyncSession = Depends(get_ses
 
 @router.post("/login")
 async def login(data: LoginSchema, db: AsyncSession = Depends(get_session)):
+    """
+        Authenticates a user and returns an access token.
+
+        :param data: A LoginSchema object containing the user's email and password.
+        :param db: The database session.
+        :return: A JSONResponse containing the access token and token type.
+    """
     user = await authenticate_user(data.email, data.password, db)
 
     if not user:
