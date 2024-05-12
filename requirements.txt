@@ -1,6 +1,7 @@
+aiomysql==0.2.0 # se voce estiver usando mysql
 annotated-types==0.6.0
 anyio==4.3.0
-asyncpg==0.29.0 # if use postgres
+asyncpg==0.29.0 # se voce estiver usando postgres
 certifi==2024.2.2
 click==8.1.7
 dnspython==2.6.1
@@ -24,6 +25,7 @@ pyasn1==0.6.0
 pydantic==2.7.1
 pydantic_core==2.18.2
 Pygments==2.18.0
+PyMySQL==1.1.0 # se voce estiver usando mysql
 python-dotenv==1.0.1
 python-jose==3.3.0
 python-multipart==0.0.9
